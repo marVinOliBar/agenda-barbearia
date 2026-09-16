@@ -1,5 +1,6 @@
 import sqlite3
-from storage import (criar_agendamento_storage)
+from storage import (criar_agendamento_storage,
+                     listar_agendamentos_storage,)
 
 def criar_agendamento_service(cliente, telefone, inicio):
     
@@ -23,3 +24,14 @@ def criar_agendamento_service(cliente, telefone, inicio):
         return (False, "Esse horário já está ocupado.")
     
     return (True, resultado)
+
+def listar_agendamento_service():
+    
+    linhas = listar_agendamentos_storage()
+    formatados = formatar_agendamentos(linhas)
+        
+    return (True, formatados)
+
+def formatar_agendamentos(linhas):
+    
+    return [{'id_cliente': identidade, 'cliente': nome, 'telefone': fone, 'inicio': horario, 'status': estado} for identidade, nome, fone, horario, estado in linhas if estado != 'cancelado']
