@@ -42,3 +42,12 @@ def test_formatar_remove_cancelados_e_devolve_dicionarios():
         {"id_cliente": 3, "cliente": "ana", "telefone": "17777",
          "inicio": "2026-09-20 11:00", "status": "atendido"},
     ]
+    
+def test_agendamento_data_passada():
+    cliente = "marcus"
+    telefone = "1798220"
+    inicio = "2026-09-15 08:00"
+    
+    resultado = criar_agendamento_service(cliente, telefone, inicio)
+    
+    assert resultado == (False, "A data não pode ser anterior ao horario atual.")

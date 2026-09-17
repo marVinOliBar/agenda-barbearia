@@ -1,6 +1,7 @@
 import sqlite3
 from storage import (criar_agendamento_storage,
                      listar_agendamentos_storage,)
+from datetime import datetime
 
 def criar_agendamento_service(cliente, telefone, inicio):
     
@@ -17,6 +18,8 @@ def criar_agendamento_service(cliente, telefone, inicio):
     if not inicio:
         return (False, "O cliente deve ter um horário cadastrado.")
     
+    if inicio_antes_de_agora(inicio):
+        return (False, "A data não pode ser anterior ao horario atual.")
         
     try:
         resultado = criar_agendamento_storage(cliente, telefone, inicio)
@@ -35,3 +38,13 @@ def listar_agendamento_service():
 def formatar_agendamentos(linhas):
     
     return [{'id_cliente': identidade, 'cliente': nome, 'telefone': fone, 'inicio': horario, 'status': estado} for identidade, nome, fone, horario, estado in linhas if estado != 'cancelado']
+
+def inicio_antes_de_agora(inicio):
+    
+    validade = datetime.strptime(inicio, "%Y-%m-%d %H:%M")
+    agora = datetime.now()
+
+    if validade < agora:
+        return True
+    else:
+        return False
