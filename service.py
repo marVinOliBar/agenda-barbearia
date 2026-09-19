@@ -18,9 +18,12 @@ def criar_agendamento_service(cliente, telefone, inicio):
     if not inicio:
         return (False, "O cliente deve ter um horário cadastrado.")
     
-    if inicio_antes_de_agora(inicio):
-        return (False, "A data não pode ser anterior ao horario atual.")
-        
+    try:
+        if inicio_antes_de_agora(inicio):
+            return (False, "A data não pode ser anterior ao horario atual.")
+    except ValueError:
+        return (False, "A data inserida não é real.")
+    
     try:
         resultado = criar_agendamento_storage(cliente, telefone, inicio)
     except sqlite3.IntegrityError:
@@ -44,7 +47,4 @@ def inicio_antes_de_agora(inicio):
     validade = datetime.strptime(inicio, "%Y-%m-%d %H:%M")
     agora = datetime.now()
 
-    if validade < agora:
-        return True
-    else:
-        return False
+    return validade < agora

@@ -1,3 +1,4 @@
+from datetime import datetime
 from service import (criar_agendamento_service,
                      formatar_agendamentos)
 
@@ -51,3 +52,12 @@ def test_agendamento_data_passada():
     resultado = criar_agendamento_service(cliente, telefone, inicio)
     
     assert resultado == (False, "A data não pode ser anterior ao horario atual.")
+    
+def test_data_em_formato_invalido_e_recusada():
+    cliente = "jose"
+    telefone = "123456"
+    inicio = "2026-13-45 08:00"
+    
+    resultado = criar_agendamento_service(cliente, telefone, inicio)
+    
+    assert resultado == (False, "A data inserida não é real.")
