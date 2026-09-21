@@ -1,6 +1,7 @@
 from datetime import datetime
 from service import (criar_agendamento_service,
-                     formatar_agendamentos)
+                     formatar_agendamentos,
+                     inicio_antes_de_agora)
 
 
 def test_cliente_vazio_e_recusado():
@@ -61,3 +62,21 @@ def test_data_em_formato_invalido_e_recusada():
     resultado = criar_agendamento_service(cliente, telefone, inicio)
     
     assert resultado == (False, "A data inserida não é real.")
+    
+def test_inicio_no_passado():
+    inicio = "2026-09-20 10:00"
+    agora = datetime(2026, 9, 21, 10, 0)
+    
+    assert inicio_antes_de_agora(inicio, agora) == True
+    
+def test_inicio_no_futuro():
+    inicio = "2026-09-22 10:00"
+    agora = datetime(2026, 9, 21, 10, 0)
+    
+    assert inicio_antes_de_agora(inicio, agora) == False
+
+def test_inicio_igual_ao_agora():
+    inicio = "2026-09-21 10:00"
+    agora = datetime(2026, 9, 21, 10, 0)
+    
+    assert inicio_antes_de_agora(inicio, agora) == False

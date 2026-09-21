@@ -19,7 +19,7 @@ def criar_agendamento_service(cliente, telefone, inicio):
         return (False, "O cliente deve ter um horário cadastrado.")
     
     try:
-        if inicio_antes_de_agora(inicio):
+        if inicio_antes_de_agora(inicio, datetime.now()):
             return (False, "A data não pode ser anterior ao horario atual.")
     except ValueError:
         return (False, "A data inserida não é real.")
@@ -42,9 +42,8 @@ def formatar_agendamentos(linhas):
     
     return [{'id_cliente': identidade, 'cliente': nome, 'telefone': fone, 'inicio': horario, 'status': estado} for identidade, nome, fone, horario, estado in linhas if estado != 'cancelado']
 
-def inicio_antes_de_agora(inicio):
+def inicio_antes_de_agora(inicio, agora):
     
     validade = datetime.strptime(inicio, "%Y-%m-%d %H:%M")
-    agora = datetime.now()
-
+    
     return validade < agora
