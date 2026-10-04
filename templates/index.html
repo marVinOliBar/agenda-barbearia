@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Agenda da barbearia</title>
+</head>
+<body>
+  <h1>Agenda da barbearia</h1>
+  <ul>
+  {% for a in agendamentos %}
+    <li>{{ a.inicio }} — {{ a.cliente }} ({{ a.telefone }})</li>
+  {% else %}
+    <li>Nenhum agendamento.</li>
+  {% endfor %}
+  </ul>
+</body>
+</html>
