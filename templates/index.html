@@ -6,6 +6,14 @@
 </head>
 <body>
   <h1>Agenda da barbearia</h1>
+
+  <form action="/agendamentos" method="post">
+    <input type="text" name="cliente" placeholder="Nome">
+    <input type="text" name="telefone" placeholder="Telefone">
+    <input type="text" name="inicio" placeholder="2026-10-20 09:00">
+    <button type="submit">Marcar</button>
+  </form>
+
   <ul>
   {% for a in agendamentos %}
     <li>{{ a.inicio }} — {{ a.cliente }} ({{ a.telefone }})</li>
