@@ -7,6 +7,10 @@
 <body>
   <h1>Agenda da barbearia</h1>
 
+  {% if erro %}
+    <p style="color: red;">{{ erro }}</p>
+  {% endif %}
+
   <form action="/agendamentos" method="post">
     <input type="text" name="cliente" placeholder="Nome">
     <input type="text" name="telefone" placeholder="Telefone">

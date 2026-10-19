@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import FastAPI, Form, HTTPException, Request
+from fastapi import FastAPI, Form, Request
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
@@ -25,8 +25,14 @@ def listar_agendamentos():
     return agendamentos
 
 @app.post("/agendamentos")
-def criar_agendamento(dados: Annotated[NovoAgendamento, Form()]):
+def criar_agendamento(request: Request, dados: Annotated[NovoAgendamento, Form()]):
     sucesso, resultado = criar_agendamento_service(dados.cliente, dados.telefone, dados.inicio)
     if not sucesso:
-        raise HTTPException(status_code=400, detail=resultado)
+        _, agendamentos = listar_agendamento_service()
+        return templates.TemplateResponse(
+            request = request,
+            name = "index.html",
+            context = {"agendamentoes": agendamentos, "erro": resultado},
+            status_code = 400,
+        )
     return RedirectResponse(url="/", status_code=303)
